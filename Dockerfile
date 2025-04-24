@@ -2,7 +2,7 @@ FROM python:3.10-slim
 
 WORKDIR /adapter
 
-COPY adapter.py .
+COPY metrics_adapter.py .
 
 RUN pip install flask requests
 
