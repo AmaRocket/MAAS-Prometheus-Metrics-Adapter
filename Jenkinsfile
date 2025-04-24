@@ -77,6 +77,21 @@ pipeline {
             }
         }
 
+        stage('Restart Monitoring Stack Services') {
+            steps {
+                dir('/opt/monitoring') {
+                    script {
+                        sh '''
+                        echo docker stack monitoring service restart
+                        docker stack rm monitoring
+                        docker stack deploy -c docker-stack.yml monitoring
+                        echo Docker stack service was deployed.
+                        '''
+                    }
+                }
+            }
+        }
+
     }
 
     post {
