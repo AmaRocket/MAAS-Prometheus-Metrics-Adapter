@@ -7,6 +7,7 @@ pipeline {
         DOCKER_SERVICE = "maas_prometheus_metrics_adapter_service"
         DOCKER_USER = credentials('docker-hub-username')
         LOG_FILE = "/var/log/docker_auto_update.log"
+        METRICS_URL = credentials('maas_metrics_url')
     }
 
     stages {
@@ -68,6 +69,7 @@ pipeline {
                             --name $DOCKER_SERVICE \
                             --constraint 'node.labels.role == manager' \
                             --network host \
+                            -e METRICS_URL=METRICS_URL \
                             --restart-condition on-failure \
                             --replicas 1 \
                             $DOCKER_IMAGE:latest
