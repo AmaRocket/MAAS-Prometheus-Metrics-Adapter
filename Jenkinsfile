@@ -39,6 +39,44 @@ pipeline {
                 }
             }
         }
+
+        stage('Remove Docker Swarm Service') {
+            steps {
+                script {
+                    sh '''
+                        echo "Updating Docker Swarm service..." | tee -a $LOG_FILE
+                        echo "Removing the existing Docker Swarm service..." | tee -a $LOG_FILE
+                        docker service rm $DOCKER_SERVICE || true
+                        sleep 5
+                        echo "Waiting for the port to be free..."
+                        while netstat -tuln | grep -q ":8081 "; do
+                            echo "Port 8081 still in use, waiting..."
+                            sleep 2
+                        done
+                        echo "Port 8081 is now free, continuing..." | tee -a $LOG_FILE
+                        '''
+                }
+            }
+        }
+
+        stage('Start Docker Swarm Service') {
+            steps {
+                script {
+                    sh '''
+                        echo "Re-creating Docker Swarm service..." | tee -a $LOG_FILE
+                        docker service create \
+                            --name $DOCKER_SERVICE \
+                            --constraint 'node.labels.role == manager' \
+                            --network host \
+                            --restart-condition on-failure \
+                            --replicas 1 \
+                            $DOCKER_IMAGE:latest
+                        echo "Docker Swarm service recreated successfully." | tee -a $LOG_FILE
+                        '''
+                }
+            }
+        }
+
     }
 
     post {
