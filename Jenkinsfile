@@ -69,7 +69,7 @@ pipeline {
                             --name $DOCKER_SERVICE \
                             --constraint 'node.labels.role == manager' \
                             --network host \
-                            -e METRICS_URL=METRICS_URL \
+                            -e METRICS_URL=$METRICS_URL \
                             --restart-condition on-failure \
                             --replicas 1 \
                             $DOCKER_IMAGE:latest
