@@ -41,7 +41,7 @@ pipeline {
             }
         }
 
-        stage('Restart Monitoring Stack Services') {
+        stage('Restart Monitoring Stack Services1') {
             steps {
                 dir('/opt/monitoring') {
                     script {
@@ -93,7 +93,7 @@ pipeline {
             }
         }
 
-        stage('Restart Monitoring Stack Services') {
+        stage('Restart Monitoring Stack Services2') {
             steps {
                 dir('/opt/monitoring') {
                     script {
