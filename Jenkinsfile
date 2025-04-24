@@ -49,11 +49,11 @@ pipeline {
                         docker service rm $DOCKER_SERVICE || true
                         sleep 5
                         echo "Waiting for the port to be free..."
-                        while netstat -tuln | grep -q ":8081 "; do
-                            echo "Port 8081 still in use, waiting..."
+                        while netstat -tuln | grep -q ":8001 "; do
+                            echo "Port 8001 still in use, waiting..."
                             sleep 2
                         done
-                        echo "Port 8081 is now free, continuing..." | tee -a $LOG_FILE
+                        echo "Port 8001 is now free, continuing..." | tee -a $LOG_FILE
                         '''
                 }
             }
