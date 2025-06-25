@@ -98,9 +98,10 @@ pipeline {
                 dir('/opt/monitoring') {
                     script {
                         sh '''
-                        echo docker stack monitoring service restart
-                        docker stack deploy -c docker-stack.yml monitoring
-                        echo Docker stack service was deployed.
+                        echo grafana and prometheus service restart
+                        sudo systemctl restart grafana-server.service
+                        sudo systemctl restart prometheus.service
+                        echo Both services were restarted
                         '''
                     }
                 }
